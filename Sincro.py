@@ -6,10 +6,11 @@ import subprocess
 import os.path
 
 import ModulSincro
+import FAjuda
 
 #--------------------------------------------------
 #--------------------------------------------------
-'''
+
 from PyQt5 import uic
 class FinPpal(QMainWindow):
     def __init__(self):
@@ -18,7 +19,7 @@ class FinPpal(QMainWindow):
         self.PrepararWidgets()
         self.Connexions()
         self.CrearAtributs()
-'''
+    '''
 from FSincro import Ui_MainWindow
 class FinPpal(QMainWindow,Ui_MainWindow):
     def __init__(self):
@@ -28,21 +29,20 @@ class FinPpal(QMainWindow,Ui_MainWindow):
         self.PrepararWidgets()
         self.Connexions()
         self.CrearAtributs()
+    '''
     #·····································
     def PrepararWidgets(self):
         self.TAccions.setHorizontalHeaderLabels(("Element","Acció","ts M","ts S"))
         self.TAccions.setColumnWidth(0,350)
         self.TAccions.setColumnWidth(1,50)
-        self.TAccions.setColumnWidth(2,50)
-        self.TAccions.setColumnWidth(3,50)
+        self.TAccions.setColumnWidth(2,145)
+        self.TAccions.setColumnWidth(3,145)
         header=self.TAccions.verticalHeader()
         header.setDefaultSectionSize(15)
     #·····································
     def CrearAtributs(self):
-        self.topM="C:\\Feina"
-        self.topS="D:\\Feina"
-##        self.topM="C:\\Users\\70175\\Desktop\\Sincro\\X1\\Z"
-##        self.topS="C:\\Users\\70175\\Desktop\\Sincro\\X2\\Z"
+        self.topM="D:\\Feina NB\\Altres\\Altres"
+        self.topS="J:\\Feina NB\\Altres\\Altres"
         self.EtopM.setText(self.topM)
         self.EtopS.setText(self.topS)
     #·····································
@@ -58,7 +58,6 @@ class FinPpal(QMainWindow,Ui_MainWindow):
         self.TAccions.cellDoubleClicked.connect(self.ObrirExplorador)
 
         hv=self.TAccions.horizontalHeader()
-        hv.sectionClicked.connect(self.HeaderClicat)
     #·····································
     def SeleccionarM(self):
         self.topM=QFileDialog.getExistingDirectory(self,"Seleccionar directori Master",".",QFileDialog.ShowDirsOnly|QFileDialog.DontResolveSymlinks)
@@ -91,7 +90,7 @@ class FinPpal(QMainWindow,Ui_MainWindow):
 
             cella0.setFlags(cella0.flags() & ~Qt.ItemIsEditable)
             cella1.setFlags(cella1.flags() & ~Qt.ItemIsEditable)
-            cella1.setTextAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
+            cella1.setTextAlignment(int(Qt.AlignHCenter | Qt.AlignVCenter))
 
             self.TAccions.setItem(i,0,cella0)
             self.TAccions.setItem(i,1,cella1)
@@ -140,11 +139,6 @@ class FinPpal(QMainWindow,Ui_MainWindow):
             elif self.TAccions.item(f,1).background()==Qt.red:
                 self.TAccions.item(f,1).setBackground(Qt.green)    # verd: acció permesa
             # no permeto canviar de blanc (ja s'ha completat l'acció)
-    #·····································
-    def HeaderClicat(self,i):
-        if i>=2:    # clicat un dels headers dels timestamps
-            self.TAccions.setColumnWidth(2,130)
-            self.TAccions.setColumnWidth(3,130)
     #·····································
     #·····································
     # revisa el M i l'S
@@ -204,6 +198,12 @@ class FinPpal(QMainWindow,Ui_MainWindow):
         self.BSelM.setEnabled(True)
         self.BSelS.setEnabled(True)
         self.BInvertirMS.setEnabled(True)
+    #·····································
+    def keyPressEvent(self,e):
+        if e.key()==Qt.Key_F1:
+            self.fa=FAjuda.FinAjuda()
+            self.fa.setWindowModality(Qt.ApplicationModal)
+            self.fa.show()
 #--------------------------------------------------
 #--------------------------------------------------
 app=QApplication([])

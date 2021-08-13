@@ -83,6 +83,12 @@ def CompararFitxersMS(fitxersM,dirM,dirS,topS,topM,copiarF,exclosos):
             fM=fS.replace(topS,topM)    # nom sencer del fitxer del Màster
             tsM=os.stat(fM).st_mtime
             tsS=os.stat(fS).st_mtime
+
+            # evito que fitxers iguals al segon (però no a la dècima) siguin considerats diferents
+            if tsM!=tsS:
+                tsM=round(tsM,2)        # sembla que els segons són dos decimals
+                tsS=round(tsS,2)
+                
             if tsM>tsS:                 # fM més nou que fS: copiar (actualitzar)
                 nom_dir=os.path.dirname(fS)
                 if nom_dir not in exclosos:
