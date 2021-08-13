@@ -9,7 +9,7 @@ import ModulSincro
 
 #--------------------------------------------------
 #--------------------------------------------------
-
+'''
 from PyQt5 import uic
 class FinPpal(QMainWindow):
     def __init__(self):
@@ -18,7 +18,7 @@ class FinPpal(QMainWindow):
         self.PrepararWidgets()
         self.Connexions()
         self.CrearAtributs()
-    '''
+'''
 from FSincro import Ui_MainWindow
 class FinPpal(QMainWindow,Ui_MainWindow):
     def __init__(self):
@@ -28,7 +28,6 @@ class FinPpal(QMainWindow,Ui_MainWindow):
         self.PrepararWidgets()
         self.Connexions()
         self.CrearAtributs()
-    '''
     #·····································
     def PrepararWidgets(self):
         self.TAccions.setHorizontalHeaderLabels(("Element","Acció","ts M","ts S"))
