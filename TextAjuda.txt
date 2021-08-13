@@ -1,0 +1,16 @@
+Sincro
+Versió 4
+
+Què és Master i què és Slave
+
+Què fa cada botó
+
+Explicar:
+	f / d
+	+ / -
+	* / !
+	Colors
+
+Doble clic a l'element (hi obre l'explorador)
+
+Clic a l'acció (la fa o no)
