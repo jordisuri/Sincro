@@ -1,0 +1,17 @@
+TDL Sincro
+
+· Error de fitxers iguals, amb la mateixa data fins al segon, considerats diferents. Provar fora de l'app, amb un fitxer concret
+· Ajuda
+	- finestra
+	- Què és master i slave i botons de l'aplicació
+	- explicar f, d; +, -, *, !; colors; doble clic a l'acció (i color corresponent); ts
+· Treure la versió del títol, posar-lo a l'ajuda
+· Botó d'aturar (revisió i sincronització)
+· Fer que la llista d'accions es vagi actualitzant progressivament
+· Fer que la mida de les columnes de dates siguin:
+	- ja grans de bon principi
+	- suficientment grans (la mida que poso no és prou gran)
+· Mostrar el total de fitxers revisats (que no sincronitzats)
+· Clic al header Acció ordena posant els  - i + al principi (i diferenciar per d/f? columnes diferents?)
+· Augmentar mida lletra label indicador d'estat
+· NO Treure l'arrel de la llista d'acions

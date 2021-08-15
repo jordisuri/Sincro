@@ -153,7 +153,7 @@ class FinPpal(QMainWindow,Ui_MainWindow):
         QApplication.processEvents()
         self.OmplirTaula(accions_revisar)
         self.ActivarBotons()
-        self.LReady.setText(f'Llest. {total_revisats:4d} revisats')
+        self.LReady.setText(f'Fet: {total_revisats:4d} revisats')
     #·····································
     # fa la sincronització segons el que hi ha indicat en la taula
     def Sincronitzar(self):
