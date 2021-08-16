@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'c:\Users\Jordi\Desktop\Sincro\FSincro.ui'
+# Form implementation generated from reading ui file 'FSincro.ui'
 #
 # Created by: PyQt5 UI code generator 5.13.2
 #
@@ -120,11 +120,19 @@ class Ui_MainWindow(object):
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_4.addItem(spacerItem)
         self.LReady = QtWidgets.QLabel(self.centralwidget)
+        font = QtGui.QFont()
+        font.setFamily("Calibri")
+        font.setPointSize(10)
+        self.LReady.setFont(font)
         self.LReady.setObjectName("LReady")
         self.horizontalLayout_4.addWidget(self.LReady)
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_4.addItem(spacerItem1)
         self.BInvertirMS = QtWidgets.QPushButton(self.centralwidget)
+        font = QtGui.QFont()
+        font.setFamily("Calibri")
+        font.setPointSize(10)
+        self.BInvertirMS.setFont(font)
         self.BInvertirMS.setObjectName("BInvertirMS")
         self.horizontalLayout_4.addWidget(self.BInvertirMS)
         self.verticalLayout.addLayout(self.horizontalLayout_4)
@@ -146,7 +154,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "Sincro v.3"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Sincro"))
         self.label.setText(_translate("MainWindow", "Master"))
         self.BSelM.setText(_translate("MainWindow", "Canviar"))
         self.label_2.setText(_translate("MainWindow", "Slave"))
@@ -155,13 +163,3 @@ class Ui_MainWindow(object):
         self.BSinc.setText(_translate("MainWindow", "Sincronitzar"))
         self.LReady.setText(_translate("MainWindow", "-"))
         self.BInvertirMS.setText(_translate("MainWindow", "M <-> S"))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec_())

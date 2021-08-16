@@ -3,10 +3,10 @@
 block_cipher = None
 
 
-a = Analysis(['Sincro.py', 'FSincro.py', 'ModulSincro.py'],
+a = Analysis(['Sincro.py', 'FSincro.py', 'FAjuda.py', 'ModulSincro.py'],
              pathex=['C:\\Users\\Jordi\\Desktop\\Sincro'],
              binaries=[],
-             datas=[],
+             datas=[('TextAjuda.txt', '.'), ('Sincro2.ico', '.')],
              hiddenimports=[],
              hookspath=[],
              runtime_hooks=[],

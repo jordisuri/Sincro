@@ -10,7 +10,7 @@ import FAjuda
 
 #--------------------------------------------------
 #--------------------------------------------------
-
+'''
 from PyQt5 import uic
 class FinPpal(QMainWindow):
     def __init__(self):
@@ -21,7 +21,7 @@ class FinPpal(QMainWindow):
         self.PrepararWidgets()
         self.Connexions()
         self.CrearAtributs()
-    '''
+'''
 from FSincro import Ui_MainWindow
 class FinPpal(QMainWindow,Ui_MainWindow):
     def __init__(self):
@@ -32,7 +32,6 @@ class FinPpal(QMainWindow,Ui_MainWindow):
         self.PrepararWidgets()
         self.Connexions()
         self.CrearAtributs()
-    '''
     #·····································
     def PrepararWidgets(self):
         self.TAccions.setHorizontalHeaderLabels(("Element","Acció","ts M","ts S"))
@@ -44,8 +43,10 @@ class FinPpal(QMainWindow,Ui_MainWindow):
         header.setDefaultSectionSize(15)
     #·····································
     def CrearAtributs(self):
-        self.topM="D:\\Feina NB\\Altres\\Altres"
-        self.topS="J:\\Feina NB\\Altres\\Altres"
+        f=open("TextAjuda.txt","r",encoding='utf-8')
+        self.topM=f.readline().strip()
+        self.topS=f.readline().strip()
+        f.close()
         self.EtopM.setText(self.topM)
         self.EtopS.setText(self.topS)
     #·····································
