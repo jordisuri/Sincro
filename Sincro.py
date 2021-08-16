@@ -44,10 +44,8 @@ class FinPpal(QMainWindow,Ui_MainWindow):
         header.setDefaultSectionSize(15)
     #·····································
     def CrearAtributs(self):
-        self.topM="C:\\Feina"
-        self.topS="D:\\Feina"
-        #self.topM="D:\\Feina NB\\Altres\\Altres"
-        #self.topS="J:\\Feina NB\\Altres\\Altres"
+        self.topM="D:\\Feina NB\\Altres\\Altres"
+        self.topS="J:\\Feina NB\\Altres\\Altres"
         self.EtopM.setText(self.topM)
         self.EtopS.setText(self.topS)
     #·····································
@@ -158,7 +156,7 @@ class FinPpal(QMainWindow,Ui_MainWindow):
         QApplication.processEvents()
         self.OmplirTaula(accions_revisar)
         self.ActivarBotons()
-        self.LReady.setText(f'Fet: {total_revisats:4d} revisats')
+        self.LReady.setText(f'Fet: {total_revisats:4d} revisats')        
     #·····································
     # fa la sincronització segons el que hi ha indicat en la taula
     def Sincronitzar(self):
@@ -173,32 +171,6 @@ class FinPpal(QMainWindow,Ui_MainWindow):
         
         # procedim amb la sincronització
         self.DesactivarBotons()
-        for f in range(num_accions):
-            self.LReady.setText(f'Sincronitzant {f:4d} de {num_accions:4d}')
-            QApplication.processEvents()
-            if self.TAccions.item(f,1).background()==Qt.green:
-                # no permesa si vermell o blanc (ja feta)
-                desti=self.TAccions.item(f,0).text()
-                accio=self.TAccions.item(f,1).text()
-                if accio=='+d':
-                    origen=desti.replace(self.topS,self.topM)
-                    res_ok=ModulSincro.CopiarDirectori(origen,desti)
-                elif accio=='-d':
-                    res_ok=ModulSincro.EsborrarDirectori(desti)
-                elif accio=='+f' or accio=='*f' or accio=='!f':
-                    origen=desti.replace(self.topS,self.topM)
-                    res_ok=ModulSincro.CopiarFitxer(origen,desti)
-                elif accio=='-f':
-                    res_ok=ModulSincro.EsborrarFitxer(desti)
-                if res_ok:
-                    self.TAccions.item(f,0).setBackground(Qt.white)
-                    self.TAccions.item(f,1).setBackground(Qt.white)
-        self.ActivarBotons()
-        self.LReady.setText(f'Llest. {self.TAccions.rowCount():4d} sincronitzats')
-
-    #·····································
-    # fa la sincronització segons el que hi ha indicat en la taula
-    def Sincronitzar0(self):
         self.DesactivarBotons()
         num_accions=self.TAccions.rowCount()
         for f in range(num_accions):
