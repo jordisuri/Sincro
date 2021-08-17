@@ -11,14 +11,14 @@ Master és el directori original, el que volem duplicar. L'Slave serà una còpi
 BOTONS
 · Canviar - Permeten buscar els directoris respectius. Si busquem el master automàticament ens demanarà buscar l'slave.
 · M <-> S - Intercanvia les dues arrels com a master i slave.
-· Revisar - Inicia recursivament la revisió dels subarbres Master i Slave.
+· Revisar - Inicia recursivament la comparació dels subarbres Master i Slave.
     - Fa dues passes: M->S (què falta a S) i després S->M (què sobra a S).
     - En cada passa primer mira directoris i després fitxers.
-    - Les accions suggerides es mostren en la taula de sota.
+    - Les accions suggerides es mostren en la taula.
     - No es pot aturar la revisió.
 · Sincronitzar - Realitza les accions inidicades en la taula.
-    - Demana una confirmació.
-    - Només realitza les accions marcades en verd (no en vermell ni blanc).
+    - No fa una nova revisió; executa les accions de la taula.
+    - Només realitza les accions marcades en verd (no en vermell ni en blanc).
     - A mida que les va realitzant, la línia corresponent de la taula es torna blanca.
     - No es pot aturar la sincronització.
 
@@ -26,7 +26,7 @@ TAULA
 Contingut
     Element. Fitxer o directori que cal sincronitzar.
     Acció. Acció que cal fer per a sincronitzar cada element.
-    tsM, tsS. Timestamping d'última modificació de l'element a master i a slave. Només apareix quan implica actualització.
+    tsM i tsS. Timestamping d'última modificació de l'element a master i a slave. Només apareix quan implica actualització.
 Acció
     f	Fitxer
     d	Directori
@@ -41,12 +41,12 @@ Colors
 	
 INTERACCIÓ
 · F1 
-	- Obre aquesta ajuda.
-	- És modal; cal tancar-la abans de continar treballant amb l'aplicació.
+    - Obre aquesta ajuda.
+    - És modal; cal tancar-la abans de continar treballant amb l'aplicació.
 · Taula
-	- Doble clic a un Element. Obre dos exploradors en el directori de l'element, un al master i l'altre a l'slave, si existeix.
-	- Clic a l'Acció d'un Element. Alterna color verd i vermell
-		· Verd: l'acció es realitzarà
-		· Vermell: l'acció no es realitzarà
+    - Doble clic a un Element. Obre dos exploradors en el directori de l'element, un al master i l'altre a l'slave, si existeix.
+    - Clic a l'Acció d'un Element. Alterna color verd i vermell
+	· Verd: l'acció es realitzarà
+	· Vermell: l'acció no es realitzarà
 
 Les dues primeres línies del fitxer TextAjuda.txt (aquest) contenen els directoris arrels master i slave, respectivament, que es posen per defecte. Es poden canviar editant el fitxer.

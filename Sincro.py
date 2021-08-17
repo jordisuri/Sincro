@@ -11,22 +11,26 @@ import FAjuda
 #--------------------------------------------------
 #--------------------------------------------------
 '''
+# usa el .ui
 from PyQt5 import uic
 class FinPpal(QMainWindow):
     def __init__(self):
         super().__init__()
         uic.loadUi('FSincro.ui',self)
-        self.setWindowIcon(QIcon("Sincro2.ico"))
-        self.resize(720,600)
-        self.PrepararWidgets()
-        self.Connexions()
-        self.CrearAtributs()
+        self.Continuar__init__()
+        
 '''
+# usa el ui convertit en classe
 from FSincro import Ui_MainWindow
 class FinPpal(QMainWindow,Ui_MainWindow):
     def __init__(self):
         QMainWindow.__init__(self)
         self.setupUi(self)
+        self.Continuar__init__()
+       
+    #·····································
+    def Continuar__init__(self):
+        self.LReady.setText("210817.1037")
         self.setWindowIcon(QIcon("Sincro2.ico"))
         self.resize(720,600)
         self.PrepararWidgets()
@@ -37,12 +41,14 @@ class FinPpal(QMainWindow,Ui_MainWindow):
         self.TAccions.setHorizontalHeaderLabels(("Element","Acció","ts M","ts S"))
         self.TAccions.setColumnWidth(0,350)
         self.TAccions.setColumnWidth(1,50)
-        self.TAccions.setColumnWidth(2,145)
-        self.TAccions.setColumnWidth(3,145)
+        self.TAccions.setColumnWidth(2,170)
+        self.TAccions.setColumnWidth(3,170)
         header=self.TAccions.verticalHeader()
         header.setDefaultSectionSize(15)
     #·····································
     def CrearAtributs(self):
+        # les arrels per defecte es troben en les dues primeres
+        # línies del fitxer d'ajuda. Per canviar-les cal editar el fitxer
         f=open("TextAjuda.txt","r",encoding='utf-8')
         self.topM=f.readline().strip()
         self.topS=f.readline().strip()
@@ -74,8 +80,15 @@ class FinPpal(QMainWindow,Ui_MainWindow):
         self.topS=self.topS.replace('/','\\')
         self.EtopS.setText(self.topS)
     #·····································
+    # actualitza topM i topS a el que hi ha escrit en el LineEdit, per si
+    # l'usuari ho ha sobreescrit (el programa no ho controla i no se n'assebenta
+    def ActualitzarTops(self):
+        self.topM=self.EtopM.text()
+        self.topS=self.EtopS.text()
+    #·····································
     # intercanvia Master i Slave
     def InvertirMS(self):
+        self.ActualitzarTops()
         aux=self.topM
         self.topM=self.topS
         self.topS=aux
@@ -147,12 +160,12 @@ class FinPpal(QMainWindow,Ui_MainWindow):
     #·····································
     # revisa el M i l'S
     def Revisar(self):
-        self.TAccions.clearContents()       # eliminem valors previs
-        self.LReady.setText("Revisant...")
+        self.ActualitzarTops()              # actualitzem possibles canvis dels tops
         self.DesactivarBotons()
+        self.TAccions.clearContents()       # eliminem valors previs de la taula
+        self.TAccions.setRowCount(0)
+        self.LReady.setText("Revisant...")
         QApplication.processEvents()
-        self.topM=self.EtopM.text()
-        self.topS=self.EtopS.text()
         accions_revisar,total_revisats=ModulSincro.Revisar(self.topM,self.topS,self.LReady)
         QApplication.processEvents()
         self.OmplirTaula(accions_revisar)
@@ -166,12 +179,12 @@ class FinPpal(QMainWindow,Ui_MainWindow):
         if num_accions==0:
             self.LReady.setText("No hi ha res per sincronitzar")
             return
-        confSinc = QMessageBox.question(self, 'Comprovació', "Vols sincronitzar?", QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
-        if confSinc == QMessageBox.No:
+        confSinc=QMessageBox.question(self,'Comprovació',"Vols sincronitzar?",QMessageBox.Yes|QMessageBox.No,QMessageBox.No)
+        if confSinc==QMessageBox.No:
             return
-        
+
         # procedim amb la sincronització
-        self.DesactivarBotons()
+        self.ActualitzarTops()              # actualitzem possibles canvis dels tops
         self.DesactivarBotons()
         num_accions=self.TAccions.rowCount()
         for f in range(num_accions):

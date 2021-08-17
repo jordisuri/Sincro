@@ -1,6 +1,5 @@
 TDL Sincro
 
-· Omplir text d'ajuda
 · Botó d'aturar (revisió i sincronització)
 · Fer que la llista d'accions es vagi actualitzant progressivament
 · Clic al header Acció ordena posant els  - i + al principi (i diferenciar per d/f? columnes diferents?)
