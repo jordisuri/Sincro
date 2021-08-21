@@ -1,7 +1,7 @@
-C:\Feina
-D:\Feina
+C:\Users\Jordi\Desktop\Sincro\X1\A
+C:\Users\Jordi\Desktop\Sincro\X2\A
 Sincro
-Versió 4
+Versió 5
 
 Aquest programa sincronitza dos directoris que poden estar en unitats diferents.
 Les dues arrels han de tenir el mateix nom (l'últim directori), p.ex. C:\aaa\zzz i D:\bbb\zzz

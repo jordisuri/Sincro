@@ -10,7 +10,7 @@ import FAjuda
 
 #--------------------------------------------------
 #--------------------------------------------------
-'''
+
 # usa el .ui
 from PyQt5 import uic
 class FinPpal(QMainWindow):
@@ -18,8 +18,8 @@ class FinPpal(QMainWindow):
         super().__init__()
         uic.loadUi('FSincro.ui',self)
         self.Continuar__init__()
-        
-'''
+        '''
+
 # usa el ui convertit en classe
 from FSincro import Ui_MainWindow
 class FinPpal(QMainWindow,Ui_MainWindow):
@@ -27,10 +27,10 @@ class FinPpal(QMainWindow,Ui_MainWindow):
         QMainWindow.__init__(self)
         self.setupUi(self)
         self.Continuar__init__()
-       
+        '''
     #·····································
     def Continuar__init__(self):
-        self.LReady.setText("210817.1037")
+        self.LReady.setText("210819.1000")
         self.setWindowIcon(QIcon("Sincro2.ico"))
         self.resize(720,600)
         self.PrepararWidgets()
@@ -127,6 +127,37 @@ class FinPpal(QMainWindow,Ui_MainWindow):
                 self.TAccions.setItem(i,2,cella2)
                 self.TAccions.setItem(i,3,cella3)
     #·····································
+    # Omple la taula amb els elements i accions de la revisió 
+    def AfegirTaula(self,accions):
+        # omplim amb les accions
+        self.TAccions.insertRow(self.TAccions.rowCount())
+        for i in range(len(accions)):
+            accio=accions[i]
+            cella0=QTableWidgetItem(accio[0])
+            cella1=QTableWidgetItem(accio[1])
+
+            cella0.setFlags(cella0.flags() & ~Qt.ItemIsEditable)
+            cella1.setFlags(cella1.flags() & ~Qt.ItemIsEditable)
+            cella1.setTextAlignment(int(Qt.AlignHCenter | Qt.AlignVCenter))
+
+            self.TAccions.setItem(i,0,cella0)
+            self.TAccions.setItem(i,1,cella1)
+            self.TAccions.item(i,1).setBackground(Qt.green)    # el color indica el permís per realitzar l'acció
+
+            if accio[1][0]=='-':
+                self.TAccions.item(i,0).setBackground(QColor(240,240,0))
+
+            if accio[1][0]=='!':
+                self.TAccions.item(i,0).setBackground(QColor(240,0,0))
+
+            if accio[1][0]=='*' or accio[1][0]=='!':
+                cella2=QTableWidgetItem(accio[2])
+                cella3=QTableWidgetItem(accio[3])
+                cella2.setFlags(cella2.flags() & ~Qt.ItemIsEditable)
+                cella3.setFlags(cella3.flags() & ~Qt.ItemIsEditable)
+                self.TAccions.setItem(i,2,cella2)
+                self.TAccions.setItem(i,3,cella3)
+    #·····································
     # obre l'explorador al M i a l'S a un doble clic de l'element en la taula
     def ObrirExplorador(self,f,c):
         self.TAccions.item(f,c).setSelected(False)
@@ -166,7 +197,10 @@ class FinPpal(QMainWindow,Ui_MainWindow):
         self.TAccions.setRowCount(0)
         self.LReady.setText("Revisant...")
         QApplication.processEvents()
-        accions_revisar,total_revisats=ModulSincro.Revisar(self.topM,self.topS,self.LReady)
+        
+        #accions_revisar,total_revisats=ModulSincro.Revisar(self.topM,self.topS,self.LReady)
+        ModulSincro.ComparacioMS(self.topM,self.topS,self.LReady,self.TAccions)
+        
         QApplication.processEvents()
         self.OmplirTaula(accions_revisar)
         self.ActivarBotons()

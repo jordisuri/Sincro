@@ -57,7 +57,7 @@ def DadesTS(ts):
 #------------------------------------------------------
 # Master -> Slave
 #------------------------------------------------------
-def CompararFillsMS(fillsM,dirM,dirS,copiarD,exclosos):
+def CompararSubdirsMS(fillsM,dirM,dirS,copiarD,exclosos,nous):
     fillsS=[os.path.join(dirS,x) for x in fillsM] # els que "hauria" de tenir
     for dS in fillsS:
         if not os.path.exists(dS):
@@ -68,6 +68,7 @@ def CompararFillsMS(fillsM,dirM,dirS,copiarD,exclosos):
                     trobat=True
             if not trobat:
                 copiarD.append(dS)
+                nous.append([dS,'+d'])
             exclosos.append(dS) # d'una manera o d'altra, a aquest dir no li hem de mirar els fitxers
 #------------------------------------------------------
 def CompararFitxersMS(fitxersM,dirM,dirS,topS,topM,copiarF,exclosos):
@@ -99,8 +100,75 @@ def CompararFitxersMS(fitxersM,dirM,dirS,topS,topM,copiarF,exclosos):
                     copiarF.append([fS,'!f',DadesTS(tsM),DadesTS(tsS)])
             #else tsM==tsS i no cal fer res
 #------------------------------------------------------
+# afegeix noves entrades a la taula
+def MostrarNous(taula,nous):
+    # omplim amb les accions
+    for i in range(len(nous)):
+        taula.insertRow(self.TAccions.rowCount())
+        accio=nous[i]
+        cella0=QTableWidgetItem(accio[0])
+        cella1=QTableWidgetItem(accio[1])
+
+        cella0.setFlags(cella0.flags() & ~Qt.ItemIsEditable)
+        cella1.setFlags(cella1.flags() & ~Qt.ItemIsEditable)
+        cella1.setTextAlignment(int(Qt.AlignHCenter | Qt.AlignVCenter))
+
+        taula.setItem(i,0,cella0)
+        taula.setItem(i,1,cella1)
+        taula.item(i,1).setBackground(Qt.green)    # el color indica el permís per realitzar l'acció
+
+        if accio[1][0]=='-':
+            taula.item(i,0).setBackground(QColor(240,240,0))
+
+        if accio[1][0]=='!':
+            taula.item(i,0).setBackground(QColor(240,0,0))
+
+        if accio[1][0]=='*' or accio[1][0]=='!':
+            cella2=QTableWidgetItem(accio[2])
+            cella3=QTableWidgetItem(accio[3])
+            cella2.setFlags(cella2.flags() & ~Qt.ItemIsEditable)
+            cella3.setFlags(cella3.flags() & ~Qt.ItemIsEditable)
+            taula.setItem(i,2,cella2)
+            taula.setItem(i,3,cella3)
+#------------------------------------------------------
 # compara el M amb el S
-def ComparacioMS(topM,topS,zzz):
+def ComparacioMS(topM,topS,etiq,taula):
+    copiarD=[]
+    copiarF=[]
+    exclosos=[]
+    n=0
+    itM=os.walk(topM)
+    for dirM,fillsM,fitxersM in itM:
+        n+=len(fillsM)+len(fitxersM)
+        dirS=dirM.replace(topM,topS)
+        
+        nous=[]
+        CompararSubdirsMS(fillsM,dirM,dirS,copiarD,exclosos,nous)
+        MostrarNous(taula,nous)
+        nous=[]
+        CompararFitxersMS(fitxersM,dirM,dirS,topS,topM,copiarF,exclosos)        
+        MostrarNous(taula,nous)
+
+        etiq.setText(f'{n:4d} M->S revisats')
+        QApplication.processEvents()
+    return copiarD,copiarF,n
+
+
+    
+    accions=[]
+    for c in copiarD:
+        accions.append([c,'+d'])
+    for c in copiarF:
+        accions.append(c)
+    for c in esborrarD:
+        accions.append([c,'-d'])
+    for c in esborrarF:
+        accions.append([c,'-f'])
+    accions.sort()
+    return accions,n1+n2
+
+
+def ComparacioMS0(topM,topS,zzz):
     copiarD=[]
     copiarF=[]
     exclosos=[]
@@ -176,7 +244,7 @@ def Revisar(topM,topS,zzz):
     return accions,n1+n2
 #------------------------------------------------------
 #------------------------------------------------------
-# realització d'accions
+# accions
 #------------------------------------------------------
 #------------------------------------------------------
 def CopiarDirectori(origen,desti):
@@ -207,36 +275,4 @@ def EsborrarFitxer(desti):
     except:
         return False
 #------------------------------------------------------
-#------------------------------------------------------
-if __name__=="__main__":
-    # M és el màster, S és l'esclau
-##    topM=os.path.normpath(".\X1\Z")
-##    topS=os.path.normpath(".\X2\Z")
-    topM=os.path.normpath("C:/Users/70175/Desktop/Sincro/X1/Z")
-    topS=os.path.normpath("C:/Users/70175/Desktop/Sincro/X2/Z")
-
-    # comparació M->S
-    copiarD,copiarF=ComparacioMS(topM,topS)
-    print("copiarD",copiarD)
-    print("copiarF",copiarF)
-
-    print("**************************************")
-
-    # comparació S->M
-    esborrarD,esborrarF=ComparacioSM(topS,topM)
-    print("esborrarD",esborrarD)
-    print("esborrarF",esborrarF)
-
-    accions=[]
-    for c in copiarD:
-        accions.append([c,'+d'])
-    for c in copiarF:
-        accions.append(c)
-    for c in esborrarD:
-        accions.append([c,'-d'])
-    for c in esborrarF:
-        accions.append([c,'-f'])
-    print(accions)
-    accions.sort()
-    print(accions)
 #------------------------------------------------------
