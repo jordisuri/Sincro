@@ -57,7 +57,7 @@ def DadesTS(ts):
 #------------------------------------------------------
 # Master -> Slave
 #------------------------------------------------------
-def CompararSubdirsMS(fillsM,dirM,dirS,copiarD,exclosos,nous):
+def CompararSubdirsMS(fillsM,dirM,dirS,copiarD,exclosos,taula):
     fillsS=[os.path.join(dirS,x) for x in fillsM] # els que "hauria" de tenir
     for dS in fillsS:
         if not os.path.exists(dS):
@@ -68,10 +68,10 @@ def CompararSubdirsMS(fillsM,dirM,dirS,copiarD,exclosos,nous):
                     trobat=True
             if not trobat:
                 copiarD.append(dS)
-                nous.append([dS,'+d'])
+                AfegirAccioTaula(taula,[dS,'+d'])
             exclosos.append(dS) # d'una manera o d'altra, a aquest dir no li hem de mirar els fitxers
 #------------------------------------------------------
-def CompararFitxersMS(fitxersM,dirM,dirS,topS,topM,copiarF,exclosos):
+def CompararFitxersMS(fitxersM,dirM,dirS,topS,topM,copiarF,exclosos,taula):
     fitxersS=[os.path.join(dirS,x) for x in fitxersM] # els que "hauria" de tenir
     for fS in fitxersS:
         if not os.path.exists(fS):
@@ -79,6 +79,7 @@ def CompararFitxersMS(fitxersM,dirM,dirS,topS,topM,copiarF,exclosos):
             if nom_dir not in exclosos:
                 # no és a S ni a la llista de dirs exclosos; s'hi ha d'afegir
                 copiarF.append([fS,'+f'])    # no hi és; s'ha d'afagir
+                AfegirAccioTaula(taula,[fS,'+f'])
         else:
             # és a S; comparem dates
             fM=fS.replace(topS,topM)    # nom sencer del fitxer del Màster
@@ -94,42 +95,45 @@ def CompararFitxersMS(fitxersM,dirM,dirS,topS,topM,copiarF,exclosos):
                 nom_dir=os.path.dirname(fS)
                 if nom_dir not in exclosos:
                     copiarF.append([fS,'*f',DadesTS(tsM),DadesTS(tsS)])
+                    AfegirAccioTaula(taula,[fS,'*f',DadesTS(tsM),DadesTS(tsS)])
             elif tsM<tsS:               # fM més vell que fS: copiar (però amb avís)
                 nom_dir=os.path.dirname(fS)
                 if nom_dir not in exclosos:
                     copiarF.append([fS,'!f',DadesTS(tsM),DadesTS(tsS)])
+                    AfegirAccioTaula(taula,[fS,'!f',DadesTS(tsM),DadesTS(tsS)])
             #else tsM==tsS i no cal fer res
 #------------------------------------------------------
-# afegeix noves entrades a la taula
-def MostrarNous(taula,nous):
-    # omplim amb les accions
-    for i in range(len(nous)):
-        taula.insertRow(self.TAccions.rowCount())
-        accio=nous[i]
-        cella0=QTableWidgetItem(accio[0])
-        cella1=QTableWidgetItem(accio[1])
+# afegeix una nova acció a la taula
+def AfegirAccioTaula(taula,accio):
+    i=taula.rowCount()
+    taula.insertRow(i)   # afegeix una fila al final
+    taula.setRowHeight(i,20)
+    cella0=QTableWidgetItem(accio[0])
+    cella1=QTableWidgetItem(accio[1])
 
-        cella0.setFlags(cella0.flags() & ~Qt.ItemIsEditable)
-        cella1.setFlags(cella1.flags() & ~Qt.ItemIsEditable)
-        cella1.setTextAlignment(int(Qt.AlignHCenter | Qt.AlignVCenter))
+    cella0.setFlags(cella0.flags() & ~Qt.ItemIsEditable)
+    cella1.setFlags(cella1.flags() & ~Qt.ItemIsEditable)
+    cella1.setTextAlignment(int(Qt.AlignHCenter | Qt.AlignVCenter))
 
-        taula.setItem(i,0,cella0)
-        taula.setItem(i,1,cella1)
-        taula.item(i,1).setBackground(Qt.green)    # el color indica el permís per realitzar l'acció
+    taula.setItem(i,0,cella0)
+    taula.setItem(i,1,cella1)
+    taula.item(i,1).setBackground(Qt.green)    # el color indica el permís per realitzar l'acció
 
-        if accio[1][0]=='-':
-            taula.item(i,0).setBackground(QColor(240,240,0))
+    if accio[1][0]=='-':
+        taula.item(i,0).setBackground(QColor(240,240,0))
 
-        if accio[1][0]=='!':
-            taula.item(i,0).setBackground(QColor(240,0,0))
+    if accio[1][0]=='!':
+        taula.item(i,0).setBackground(QColor(240,0,0))
 
-        if accio[1][0]=='*' or accio[1][0]=='!':
-            cella2=QTableWidgetItem(accio[2])
-            cella3=QTableWidgetItem(accio[3])
-            cella2.setFlags(cella2.flags() & ~Qt.ItemIsEditable)
-            cella3.setFlags(cella3.flags() & ~Qt.ItemIsEditable)
-            taula.setItem(i,2,cella2)
-            taula.setItem(i,3,cella3)
+    if accio[1][0]=='*' or accio[1][0]=='!':
+        cella2=QTableWidgetItem(accio[2])
+        cella3=QTableWidgetItem(accio[3])
+        cella2.setFlags(cella2.flags() & ~Qt.ItemIsEditable)
+        cella3.setFlags(cella3.flags() & ~Qt.ItemIsEditable)
+        taula.setItem(i,2,cella2)
+        taula.setItem(i,3,cella3)
+        
+    QApplication.processEvents()
 #------------------------------------------------------
 # compara el M amb el S
 def ComparacioMS(topM,topS,etiq,taula):
@@ -141,20 +145,21 @@ def ComparacioMS(topM,topS,etiq,taula):
     for dirM,fillsM,fitxersM in itM:
         n+=len(fillsM)+len(fitxersM)
         dirS=dirM.replace(topM,topS)
-        
-        nous=[]
-        CompararSubdirsMS(fillsM,dirM,dirS,copiarD,exclosos,nous)
-        MostrarNous(taula,nous)
-        nous=[]
-        CompararFitxersMS(fitxersM,dirM,dirS,topS,topM,copiarF,exclosos)        
-        MostrarNous(taula,nous)
 
+        falta el número de fitxers revisats
+        ###
+        
+        CompararSubdirsMS(fillsM,dirM,dirS,copiarD,exclosos,taula)
+        print("CS")
+        CompararFitxersMS(fitxersM,dirM,dirS,topS,topM,copiarF,exclosos,taula)        
+        print("CF")
+        
         etiq.setText(f'{n:4d} M->S revisats')
         QApplication.processEvents()
     return copiarD,copiarF,n
 
 
-    
+'''    
     accions=[]
     for c in copiarD:
         accions.append([c,'+d'])
@@ -182,6 +187,7 @@ def ComparacioMS0(topM,topS,zzz):
         zzz.setText(f'{n:4d} M->S revisats')
         QApplication.processEvents()
     return copiarD,copiarF,n
+'''
 #------------------------------------------------------
 #------------------------------------------------------
 # Slave -> Master
@@ -211,7 +217,7 @@ def CompararFitxersSM(fitxersS,dirS,dirM,esborrarF,exclosos):
                 esborrarF.append(fS)    # no hi és; s'ha d'afagir
         # else:   existeix a ambdós llocs: ja tractat en el cas M->S i no cal fer res
 #------------------------------------------------------
-def ComparacioSM(topS,topM,zzz):
+def ComparacioSM(topM,topS,etiq,taula):
     esborrarD=[]
     esborrarF=[]
     exclosos=[]
@@ -222,7 +228,7 @@ def ComparacioSM(topS,topM,zzz):
         dirM=dirS.replace(topS,topM)
         CompararFillsSM(fillsS,dirS,dirM,esborrarD,exclosos)
         CompararFitxersSM(fitxersS,dirS,dirM,esborrarF,exclosos)
-        zzz.setText(f'{n:4d} S->M revisats')
+        etiq.setText(f'{n:4d} S->M revisats')
         QApplication.processEvents()
     return esborrarD,esborrarF,n
 #------------------------------------------------------
