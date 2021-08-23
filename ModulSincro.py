@@ -103,6 +103,55 @@ def CompararFitxersMS(fitxersM,dirM,dirS,topS,topM,copiarF,exclosos,taula):
                     AfegirAccioTaula(taula,[fS,'!f',DadesTS(tsM),DadesTS(tsS)])
             #else tsM==tsS i no cal fer res
 #------------------------------------------------------
+# compara el M amb el S
+def ComparacioMS(topM,topS,etiq,taula):
+    copiarD=[]
+    copiarF=[]
+    exclosos=[]
+    n=0
+    itM=os.walk(topM)
+    for dirM,fillsM,fitxersM in itM:
+        n+=len(fillsM)+len(fitxersM)
+        dirS=dirM.replace(topM,topS)
+        
+        CompararSubdirsMS(fillsM,dirM,dirS,copiarD,exclosos,taula)
+        print("CS")
+        CompararFitxersMS(fitxersM,dirM,dirS,topS,topM,copiarF,exclosos,taula)        
+        print("CF")
+        
+        etiq.setText(f'{n:4d} M->S revisats')
+        QApplication.processEvents()
+    
+'''    
+    accions=[]
+    for c in copiarD:
+        accions.append([c,'+d'])
+    for c in copiarF:
+        accions.append(c)
+    for c in esborrarD:
+        accions.append([c,'-d'])
+    for c in esborrarF:
+        accions.append([c,'-f'])
+    accions.sort()
+    return accions,n1+n2
+
+
+def ComparacioMS0(topM,topS,zzz):
+    copiarD=[]
+    copiarF=[]
+    exclosos=[]
+    n=0
+    itM=os.walk(topM)
+    for dirM,fillsM,fitxersM in itM:
+        n+=len(fillsM)+len(fitxersM)
+        dirS=dirM.replace(topM,topS)
+        CompararFillsMS(fillsM,dirM,dirS,copiarD,exclosos)
+        CompararFitxersMS(fitxersM,dirM,dirS,topS,topM,copiarF,exclosos)
+        zzz.setText(f'{n:4d} M->S revisats')
+        QApplication.processEvents()
+    return copiarD,copiarF,n
+'''
+#------------------------------------------------------
 # afegeix una nova acció a la taula
 def AfegirAccioTaula(taula,accio):
     i=taula.rowCount()
@@ -134,60 +183,6 @@ def AfegirAccioTaula(taula,accio):
         taula.setItem(i,3,cella3)
         
     QApplication.processEvents()
-#------------------------------------------------------
-# compara el M amb el S
-def ComparacioMS(topM,topS,etiq,taula):
-    copiarD=[]
-    copiarF=[]
-    exclosos=[]
-    n=0
-    itM=os.walk(topM)
-    for dirM,fillsM,fitxersM in itM:
-        n+=len(fillsM)+len(fitxersM)
-        dirS=dirM.replace(topM,topS)
-
-        falta el número de fitxers revisats
-        ###
-        
-        CompararSubdirsMS(fillsM,dirM,dirS,copiarD,exclosos,taula)
-        print("CS")
-        CompararFitxersMS(fitxersM,dirM,dirS,topS,topM,copiarF,exclosos,taula)        
-        print("CF")
-        
-        etiq.setText(f'{n:4d} M->S revisats')
-        QApplication.processEvents()
-    return copiarD,copiarF,n
-
-
-'''    
-    accions=[]
-    for c in copiarD:
-        accions.append([c,'+d'])
-    for c in copiarF:
-        accions.append(c)
-    for c in esborrarD:
-        accions.append([c,'-d'])
-    for c in esborrarF:
-        accions.append([c,'-f'])
-    accions.sort()
-    return accions,n1+n2
-
-
-def ComparacioMS0(topM,topS,zzz):
-    copiarD=[]
-    copiarF=[]
-    exclosos=[]
-    n=0
-    itM=os.walk(topM)
-    for dirM,fillsM,fitxersM in itM:
-        n+=len(fillsM)+len(fitxersM)
-        dirS=dirM.replace(topM,topS)
-        CompararFillsMS(fillsM,dirM,dirS,copiarD,exclosos)
-        CompararFitxersMS(fitxersM,dirM,dirS,topS,topM,copiarF,exclosos)
-        zzz.setText(f'{n:4d} M->S revisats')
-        QApplication.processEvents()
-    return copiarD,copiarF,n
-'''
 #------------------------------------------------------
 #------------------------------------------------------
 # Slave -> Master
@@ -233,8 +228,9 @@ def ComparacioSM(topM,topS,etiq,taula):
     return esborrarD,esborrarF,n
 #------------------------------------------------------
 #------------------------------------------------------
+'''
 def Revisar(topM,topS,zzz):
-    copiarD,copiarF,n1=ComparacioMS(topM,topS,zzz)     # comparació M->S
+    ComparacioMS(topM,topS,zzz)     # comparació M->S
     esborrarD,esborrarF,n2=ComparacioSM(topS,topM,zzz) # comparació S->M
     
     accions=[]
@@ -248,6 +244,7 @@ def Revisar(topM,topS,zzz):
         accions.append([c,'-f'])
     accions.sort()
     return accions,n1+n2
+'''
 #------------------------------------------------------
 #------------------------------------------------------
 # accions
