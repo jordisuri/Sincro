@@ -132,23 +132,6 @@ def CompararFitxersMS(fitxersM,dirM,dirS,topS,topM,exclosos,taula):
                     AfegirAccioTaula(taula,[fS,'!f',DadesTS(tsM),DadesTS(tsS)])
             #else tsM==tsS i no cal fer res
 #------------------------------------------------------
-# compara el M amb el S
-def ComparacioMS(topM,topS,etiq,taula):
-    copiarD=[]
-    exclosos=[]
-    n=0
-    itM=os.walk(topM)
-    for dirM,fillsM,fitxersM in itM:
-        n+=len(fillsM)+len(fitxersM)
-        dirS=dirM.replace(topM,topS)
-        
-        CompararSubdirsMS(fillsM,dirM,dirS,copiarD,exclosos,taula)
-        CompararFitxersMS(fitxersM,dirM,dirS,topS,topM,exclosos,taula)
-        
-        etiq.setText(f'M->S: {n:4d} revisats')
-        QApplication.processEvents()
-    return n
-#------------------------------------------------------
 #------------------------------------------------------
 # Slave -> Master
 #------------------------------------------------------
@@ -177,21 +160,6 @@ def CompararFitxersSM(fitxersS,dirS,dirM,exclosos,taula):
                 # no és a M ni a la llista de dirs exclosos; s'hi ha d'afegir
                 AfegirAccioTaula(taula,[fS,'-f'])
         # else:   existeix a ambdós llocs: ja tractat en el cas M->S i no cal fer res
-#------------------------------------------------------
-def ComparacioSM(topM,topS,etiq,taula):
-    esborrarD=[]
-    exclosos=[]
-    n=0
-    itS=os.walk(topS)
-    for dirS,fillsS,fitxersS in itS:
-        n+=len(fillsS)+len(fitxersS)
-        dirM=dirS.replace(topS,topM)
-        CompararSubdirsSM(fillsS,dirS,dirM,esborrarD,exclosos,taula)
-        CompararFitxersSM(fitxersS,dirS,dirM,exclosos,taula)
-    
-        etiq.setText(f'S->M: {n:4d} revisats')
-        QApplication.processEvents()
-    return n
 #------------------------------------------------------
 #------------------------------------------------------
 # accions

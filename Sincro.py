@@ -45,6 +45,8 @@ class FinPpal(QMainWindow,Ui_MainWindow):
         self.TAccions.setColumnWidth(3,170)
         header=self.TAccions.verticalHeader()
         header.setDefaultSectionSize(15)
+        
+        self.BAturar.setEnabled(False)
     #·····································
     def CrearAtributs(self):
         # les arrels per defecte es troben en les dues primeres
@@ -55,6 +57,8 @@ class FinPpal(QMainWindow,Ui_MainWindow):
         f.close()
         self.EtopM.setText(self.topM)
         self.EtopS.setText(self.topS)
+
+        self.aturar=False
     #·····································
     def Connexions(self):
         self.BSelM.clicked.connect(self.SeleccionarM)
@@ -63,6 +67,7 @@ class FinPpal(QMainWindow,Ui_MainWindow):
         
         self.BRev.clicked.connect(self.Revisar)
         self.BSinc.clicked.connect(self.Sincronitzar)
+        self.BAturar.clicked.connect(self.Aturar)
         
         self.TAccions.cellClicked.connect(self.CanviAccio)
         self.TAccions.cellDoubleClicked.connect(self.ObrirExplorador)
@@ -128,21 +133,59 @@ class FinPpal(QMainWindow,Ui_MainWindow):
     #·····································
     # revisa el M i l'S
     def Revisar(self):
+        self.aturar=False
+        self.BAturar.setEnabled(True)
+        
         self.ActualitzarTops()              # actualitzem possibles canvis dels tops
         self.DesactivarBotons()
         self.TAccions.clearContents()       # eliminem valors previs de la taula
         self.TAccions.setRowCount(0)
         self.LReady.setText("Revisant...")
         QApplication.processEvents()
-        
-        tr =ModulSincro.ComparacioMS(self.topM,self.topS,self.LReady,self.TAccions)
-        tr+=ModulSincro.ComparacioSM(self.topM,self.topS,self.LReady,self.TAccions)
 
-        ### fer un sort a la taula?
+        # M->S
+        copiarD=[]
+        exclosos=[]
+        n=0
+        itM=os.walk(self.topM)
+        for dirM,fillsM,fitxersM in itM:
+            n+=len(fillsM)+len(fitxersM)
+            dirS=dirM.replace(self.topM,self.topS)
+            
+            ModulSincro.CompararSubdirsMS(fillsM,dirM,dirS,copiarD,exclosos,self.TAccions)
+            if self.aturar:
+                return
+            ModulSincro.CompararFitxersMS(fitxersM,dirM,dirS,self.topS,self.topM,exclosos,self.TAccions)
+            if self.aturar:
+                return
+            
+            self.LReady.setText(f'M->S: {n:4d} revisats')
+            QApplication.processEvents()
+
+        # S->M
+        esborrarD=[]
+        exclosos=[]
+        n=0
+        itS=os.walk(self.topS)
+        for dirS,fillsS,fitxersS in itS:
+            n+=len(fillsS)+len(fitxersS)
+            dirM=dirS.replace(self.topS,self.topM)
+            
+            ModulSincro.CompararSubdirsSM(fillsS,dirS,dirM,esborrarD,exclosos,self.TAccions)
+            if self.aturar:
+                return
+            ModulSincro.CompararFitxersSM(fitxersS,dirS,dirM,exclosos,self.TAccions)
+            if self.aturar:
+                return
+            
+            self.LReady.setText(f'S->M: {n:4d} revisats')
+            QApplication.processEvents()
+
         self.TAccions.sortItems(0)
         
         self.ActivarBotons()
-        self.LReady.setText(f'Fet! {tr:4d} revisats')        
+        self.BAturar.setEnabled(False)
+        self.LReady.setText(f'Fet! {n:4d} revisats')
     #·····································
     # fa la sincronització segons el que hi ha indicat en la taula
     def Sincronitzar(self):
@@ -156,6 +199,8 @@ class FinPpal(QMainWindow,Ui_MainWindow):
             return
 
         # procedim amb la sincronització
+        self.aturar=False
+        self.BAturar.setEnabled(True)
         self.ActualitzarTops()              # actualitzem possibles canvis dels tops
         self.DesactivarBotons()
         num_accions=self.TAccions.rowCount()
@@ -180,8 +225,15 @@ class FinPpal(QMainWindow,Ui_MainWindow):
                     self.TAccions.item(f,0).setBackground(Qt.white)
                     self.TAccions.item(f,1).setBackground(Qt.white)
         self.ActivarBotons()
+        self.BAturar.setEnabled(False)
         self.LReady.setText(f'Llest. {self.TAccions.rowCount():4d} sincronitzats')
     #·····································
+    #·····································
+    def Aturar(self):
+        self.aturar=True
+        self.BAturar.setEnabled(False)
+        self.LReady.setText(f'Aturat!')
+        self.ActivarBotons()
     #·····································
     def DesactivarBotons(self):
         #w.setStyleSheet("background-color: rgb(192,0,0)")

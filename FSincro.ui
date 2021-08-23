@@ -152,6 +152,19 @@
         </item>
        </layout>
       </item>
+      <item>
+       <widget class="QPushButton" name="BInvertirMS">
+        <property name="font">
+         <font>
+          <family>Calibri</family>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>M &lt;-&gt; S</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </item>
     <item>
@@ -216,7 +229,7 @@
        </spacer>
       </item>
       <item>
-       <widget class="QPushButton" name="BInvertirMS">
+       <widget class="QPushButton" name="BAturar">
         <property name="font">
          <font>
           <family>Calibri</family>
@@ -224,7 +237,7 @@
          </font>
         </property>
         <property name="text">
-         <string>M &lt;-&gt; S</string>
+         <string>Aturar!</string>
         </property>
        </widget>
       </item>
