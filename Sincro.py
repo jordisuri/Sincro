@@ -135,14 +135,14 @@ class FinPpal(QMainWindow,Ui_MainWindow):
         self.LReady.setText("Revisant...")
         QApplication.processEvents()
         
-        #accions_revisar,total_revisats=ModulSincro.Revisar(self.topM,self.topS,self.LReady)
-        ModulSincro.ComparacioMS(self.topM,self.topS,self.LReady,self.TAccions)
-        ###ModulSincro.ComparacioSM(self.topM,self.topS,self.LReady,self.TAccions)
-        
-        QApplication.processEvents()
+        tr =ModulSincro.ComparacioMS(self.topM,self.topS,self.LReady,self.TAccions)
+        tr+=ModulSincro.ComparacioSM(self.topM,self.topS,self.LReady,self.TAccions)
+
+        ### fer un sort a la taula?
+        self.TAccions.sortItems(0)
         
         self.ActivarBotons()
-        self.LReady.setText(f'Fet:')### {total_revisats:4d} revisats')        
+        self.LReady.setText(f'Fet! {tr:4d} revisats')        
     #·····································
     # fa la sincronització segons el que hi ha indicat en la taula
     def Sincronitzar(self):
