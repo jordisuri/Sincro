@@ -103,7 +103,7 @@ def CompararSubdirsMS(fillsM,dirM,dirS,copiarD,exclosos,taula):
                 AfegirAccioTaula(taula,[dS,'+d'])
             exclosos.append(dS) # d'una manera o d'altra, a aquest dir no li hem de mirar els fitxers
 #------------------------------------------------------
-def CompararFitxersMS(fitxersM,dirM,dirS,topS,topM,exclosos,taula):
+def CompararFitxersMS(fitxersM,dirM,dirS,topS,topM,exclosos,taula,dif):
     fitxersS=[os.path.join(dirS,x) for x in fitxersM] # els que "hauria" de tenir
     for fS in fitxersS:
         if not os.path.exists(fS):
@@ -117,19 +117,18 @@ def CompararFitxersMS(fitxersM,dirM,dirS,topS,topM,exclosos,taula):
             tsM=os.stat(fM).st_mtime
             tsS=os.stat(fS).st_mtime
 
-            # evito que fitxers iguals al segon (però no a la dècima) siguin considerats diferents
-            if tsM!=tsS:
-                tsM=round(tsM,2)        # sembla que els segons són dos decimals
-                tsS=round(tsS,2)
-                
-            if tsM>tsS:                 # fM més nou que fS: copiar (actualitzar)
-                nom_dir=os.path.dirname(fS)
-                if nom_dir not in exclosos:
-                    AfegirAccioTaula(taula,[fS,'*f',DadesTS(tsM),DadesTS(tsS)])
-            elif tsM<tsS:               # fM més vell que fS: copiar (però amb avís)
-                nom_dir=os.path.dirname(fS)
-                if nom_dir not in exclosos:
-                    AfegirAccioTaula(taula,[fS,'!f',DadesTS(tsM),DadesTS(tsS)])
+            # comprovo si els timesptampings de dos fitxers amb el mateix nom són prou diferents 
+            if tsM != tsS:
+                dt=abs(tsM-tsS)
+                if dt>dif:
+                    if tsM>tsS:         # fM més nou que fS: copiar (actualitzar)
+                        nom_dir=os.path.dirname(fS)
+                        if nom_dir not in exclosos:
+                            AfegirAccioTaula(taula,[fS,'*f',DadesTS(tsM),DadesTS(tsS)])
+                    else:               # fM més vell que fS: copiar (però amb avís)
+                        nom_dir=os.path.dirname(fS)
+                        if nom_dir not in exclosos:
+                            AfegirAccioTaula(taula,[fS,'!f',DadesTS(tsM),DadesTS(tsS)])                
             #else tsM==tsS i no cal fer res
 #------------------------------------------------------
 #------------------------------------------------------

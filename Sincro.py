@@ -30,7 +30,7 @@ class FinPpal(QMainWindow,Ui_MainWindow):
         '''
     #·····································
     def Continuar__init__(self):
-        self.LReady.setText("210819.1000")
+        self.LReady.setText("210824.1400")
         self.setWindowIcon(QIcon("Sincro2.ico"))
         self.resize(720,600)
         self.PrepararWidgets()
@@ -140,6 +140,7 @@ class FinPpal(QMainWindow,Ui_MainWindow):
         self.DesactivarBotons()
         self.TAccions.clearContents()       # eliminem valors previs de la taula
         self.TAccions.setRowCount(0)
+        dif=self.DSBDif.value()             # intèrval de temps per considerar diferents els fitxers
         self.LReady.setText("Revisant...")
         QApplication.processEvents()
 
@@ -154,10 +155,10 @@ class FinPpal(QMainWindow,Ui_MainWindow):
             
             ModulSincro.CompararSubdirsMS(fillsM,dirM,dirS,copiarD,exclosos,self.TAccions)
             if self.aturar:
-                return
-            ModulSincro.CompararFitxersMS(fitxersM,dirM,dirS,self.topS,self.topM,exclosos,self.TAccions)
+                break
+            ModulSincro.CompararFitxersMS(fitxersM,dirM,dirS,self.topS,self.topM,exclosos,self.TAccions,dif)
             if self.aturar:
-                return
+                break
             
             self.LReady.setText(f'M->S: {n:4d} revisats')
             QApplication.processEvents()
@@ -173,10 +174,10 @@ class FinPpal(QMainWindow,Ui_MainWindow):
             
             ModulSincro.CompararSubdirsSM(fillsS,dirS,dirM,esborrarD,exclosos,self.TAccions)
             if self.aturar:
-                return
+                break
             ModulSincro.CompararFitxersSM(fitxersS,dirS,dirM,exclosos,self.TAccions)
             if self.aturar:
-                return
+                break
             
             self.LReady.setText(f'S->M: {n:4d} revisats')
             QApplication.processEvents()
@@ -224,6 +225,8 @@ class FinPpal(QMainWindow,Ui_MainWindow):
                 if res_ok:
                     self.TAccions.item(f,0).setBackground(Qt.white)
                     self.TAccions.item(f,1).setBackground(Qt.white)
+            if self.aturar:
+                break
         self.ActivarBotons()
         self.BAturar.setEnabled(False)
         self.LReady.setText(f'Llest. {self.TAccions.rowCount():4d} sincronitzats')

@@ -1,5 +1,5 @@
-C:\Users\Jordi\Desktop\Sincro\X1\A
-C:\Users\Jordi\Desktop\Sincro\X2\A
+D:\Feina NB
+J:\Feina NB
 Sincro
 Versió 5
 
@@ -21,6 +21,10 @@ BOTONS
     - Només realitza les accions marcades en verd (no en vermell ni en blanc).
     - A mida que les va realitzant, la línia corresponent de la taula es torna blanca.
     - No es pot aturar la sincronització.
+· Aturar! - Atura la revisió o sincronització en curs. Pot no reaccionar instantàniament.
+
+SPINBOX
+Diferència de temps mínima (en els timestampings) per tal que dos fitxers amb el mateix nom siguin considerats diferents. Les unitats són segons.
 
 TAULA
 Contingut
