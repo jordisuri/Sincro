@@ -52,5 +52,6 @@ INTERACCIÓ
     - Clic a l'Acció d'un Element. Alterna color verd i vermell
 	· Verd: l'acció es realitzarà
 	· Vermell: l'acció no es realitzarà
+    - Clic a una capçalera. Ordena la taula segons aquella columna
 
 Les dues primeres línies del fitxer TextAjuda.txt (aquest) contenen els directoris arrels master i slave, respectivament, que es posen per defecte. Es poden canviar editant el fitxer.

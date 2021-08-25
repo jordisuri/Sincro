@@ -30,7 +30,7 @@ class FinPpal(QMainWindow,Ui_MainWindow):
 
     #·····································
     def Continuar__init__(self):
-        self.LReady.setText("210824.2330")
+        self.LReady.setText("210825.1300")
         self.setWindowIcon(QIcon("Sincro2.ico"))
         self.resize(720,600)
         self.PrepararWidgets()
@@ -73,6 +73,7 @@ class FinPpal(QMainWindow,Ui_MainWindow):
         self.TAccions.cellDoubleClicked.connect(self.ObrirExplorador)
 
         hv=self.TAccions.horizontalHeader()
+        hv.sectionClicked.connect(self.HeaderClicat)
     #·····································
     def SeleccionarM(self):
         self.topM=QFileDialog.getExistingDirectory(self,"Seleccionar directori Master",".",QFileDialog.ShowDirsOnly|QFileDialog.DontResolveSymlinks)
@@ -119,6 +120,11 @@ class FinPpal(QMainWindow,Ui_MainWindow):
             subprocess.Popen('explorer "'+dnM+'"')
         else:
             subprocess.Popen('explorer "'+self.topM+'"')
+    #·····································
+    # s'ha clicat un header: ordenar segons aquesta columna
+    def HeaderClicat(self,c):
+        self.TAccions.sortItems(c)
+        self.TAccions.clearSelection()
     #·····································
     # alterna l'activació o desactivació d'una acció
     def CanviAccio(self,f,c):
