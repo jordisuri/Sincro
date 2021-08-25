@@ -10,7 +10,7 @@ import FAjuda
 
 #--------------------------------------------------
 #--------------------------------------------------
-
+'''
 # usa el .ui
 from PyQt5 import uic
 class FinPpal(QMainWindow):
@@ -18,7 +18,7 @@ class FinPpal(QMainWindow):
         super().__init__()
         uic.loadUi('FSincro.ui',self)
         self.Continuar__init__()
-        '''
+'''
 
 # usa el ui convertit en classe
 from FSincro import Ui_MainWindow
@@ -27,10 +27,10 @@ class FinPpal(QMainWindow,Ui_MainWindow):
         QMainWindow.__init__(self)
         self.setupUi(self)
         self.Continuar__init__()
-        '''
+
     #·····································
     def Continuar__init__(self):
-        self.LReady.setText("210824.1400")
+        self.LReady.setText("210824.2330")
         self.setWindowIcon(QIcon("Sincro2.ico"))
         self.resize(720,600)
         self.PrepararWidgets()
