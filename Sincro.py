@@ -21,6 +21,7 @@ class FinPpal(QMainWindow):
         self.Continuar__init__()
 '''
 
+
 # usa el ui convertit en classe
 from FSincro import Ui_MainWindow
 class FinPpal(QMainWindow,Ui_MainWindow):
