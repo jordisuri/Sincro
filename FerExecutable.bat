@@ -7,3 +7,5 @@ rem així el pyinstaller només para al final
 rem Recordar que l'executable es troba a la carpeta dist
 
 pyinstaller Sincro.py FSincro.py FAjuda.py ModulSincro.py -w --noconfirm --add-data TextAjuda.txt;. --add-data Sincro2.ico;.
+
+copy TextAjuda.txt dist\Sincro

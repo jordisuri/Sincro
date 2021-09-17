@@ -71,6 +71,9 @@ def AfegirAccioTaula(taula,accio):
     taula.setItem(i,1,cella1)
     taula.item(i,1).setBackground(Qt.green)    # el color indica el permís per realitzar l'acció
 
+    if '~' in accio[0]:
+        taula.item(i,0).setBackground(QColor(245,175,200))
+
     if accio[1][0]=='-':
         taula.item(i,0).setBackground(QColor(240,240,0))
 

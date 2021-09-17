@@ -1,7 +1,6 @@
-D:\Feina NB
-J:\Feina NB
+I:\Feina
+D:\Feina
 Sincro
-Versió 5
 
 Aquest programa sincronitza dos directoris que poden estar en unitats diferents.
 Les dues arrels han de tenir el mateix nom (l'últim directori), p.ex. C:\aaa\zzz i D:\bbb\zzz

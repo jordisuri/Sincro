@@ -4,6 +4,7 @@ from PyQt5.QtGui import *
 
 import subprocess
 import os.path
+import time
 
 import ModulSincro
 import FAjuda
@@ -27,22 +28,21 @@ class FinPpal(QMainWindow,Ui_MainWindow):
         QMainWindow.__init__(self)
         self.setupUi(self)
         self.Continuar__init__()
-
     #·····································
     def Continuar__init__(self):
-        self.LReady.setText("210825.1300")
+        self.LReady.setText("210917.1741")
         self.setWindowIcon(QIcon("Sincro2.ico"))
-        self.resize(720,600)
+        self.resize(744,600)
         self.PrepararWidgets()
         self.Connexions()
         self.CrearAtributs()
     #·····································
     def PrepararWidgets(self):
         self.TAccions.setHorizontalHeaderLabels(("Element","Acció","ts M","ts S"))
-        self.TAccions.setColumnWidth(0,350)
+        self.TAccions.setColumnWidth(0,370)
         self.TAccions.setColumnWidth(1,50)
-        self.TAccions.setColumnWidth(2,170)
-        self.TAccions.setColumnWidth(3,170)
+        self.TAccions.setColumnWidth(2,140)
+        self.TAccions.setColumnWidth(3,140)
         header=self.TAccions.verticalHeader()
         header.setDefaultSectionSize(15)
         
@@ -193,6 +193,8 @@ class FinPpal(QMainWindow,Ui_MainWindow):
         self.ActivarBotons()
         self.BAturar.setEnabled(False)
         self.LReady.setText(f'Fet! {n:4d} revisats')
+        self.BSinc.setFocus()
+        self.Flash()
     #·····································
     # fa la sincronització segons el que hi ha indicat en la taula
     def Sincronitzar(self):
@@ -236,6 +238,8 @@ class FinPpal(QMainWindow,Ui_MainWindow):
         self.ActivarBotons()
         self.BAturar.setEnabled(False)
         self.LReady.setText(f'Llest. {self.TAccions.rowCount():4d} sincronitzats')
+        self.BRev.setFocus()
+        self.Flash()
     #·····································
     #·····································
     def Aturar(self):
@@ -265,6 +269,20 @@ class FinPpal(QMainWindow,Ui_MainWindow):
             self.fa=FAjuda.FinAjuda()
             self.fa.setWindowModality(Qt.ApplicationModal)
             self.fa.show()
+    #·····································
+    def resizeEvent(self,e):
+        # estiro la columna 0 de la taula per adaptar-la a la mida de la finestra
+        nova_mida=e.size().width()
+        self.TAccions.setColumnWidth(0,nova_mida-380)
+    #·····································
+    def Flash(self):
+        for i in range(4):
+            self.setStyleSheet("background-color: red;")
+            QApplication.processEvents()
+            time.sleep(.08)
+            self.setStyleSheet("background-color: rgb(225,225,225)")
+            QApplication.processEvents()
+            time.sleep(.15)        
 #--------------------------------------------------
 #--------------------------------------------------
 app=QApplication([])
