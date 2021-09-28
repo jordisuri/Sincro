@@ -1,5 +1,5 @@
-I:\Feina
 D:\Feina
+C:\Feina
 Sincro
 
 Aquest programa sincronitza dos directoris que poden estar en unitats diferents.
@@ -14,16 +14,14 @@ BOTONS
     - Fa dues passes: M->S (què falta a S) i després S->M (què sobra a S).
     - En cada passa primer mira directoris i després fitxers.
     - Les accions suggerides es mostren en la taula.
-    - No es pot aturar la revisió.
 · Sincronitzar - Realitza les accions inidicades en la taula.
     - No fa una nova revisió; executa les accions de la taula.
     - Només realitza les accions marcades en verd (no en vermell ni en blanc).
     - A mida que les va realitzant, la línia corresponent de la taula es torna blanca.
-    - No es pot aturar la sincronització.
 · Aturar! - Atura la revisió o sincronització en curs. Pot no reaccionar instantàniament.
 
 SPINBOX
-Diferència de temps mínima (en els timestampings) per tal que dos fitxers amb el mateix nom siguin considerats diferents. Les unitats són segons.
+Diferència de temps mínima en segons (en els timestampings) per tal que dos fitxers amb el mateix nom siguin considerats diferents.
 
 TAULA
 Contingut
@@ -38,7 +36,7 @@ Acció
     *	Cal actualitzar (copiar) l'element del M a l'S. El del M és més nou.
     !	Com *, però l'element de l'S és més nou que el del M. És un avís.
 Colors
-    Groc		Visibilitza una acció -
+    Groc	Visibilitza una acció -
     Vermell	Visibilitza una acció !
    El color groc i vermell requereixen atenció
 	

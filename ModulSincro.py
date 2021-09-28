@@ -57,6 +57,7 @@ def DadesTS(ts):
 #------------------------------------------------------
 # afegeix una nova acció a la taula
 def AfegirAccioTaula(taula,accio):
+    print(accio[0])
     i=taula.rowCount()
     taula.insertRow(i)   # afegeix una fila al final
     taula.setRowHeight(i,20)
@@ -111,6 +112,7 @@ def CompararFitxersMS(fitxersM,dirM,dirS,topS,topM,exclosos,taula,dif):
     for fS in fitxersS:
         if not os.path.exists(fS):
             nom_dir=os.path.dirname(fS)
+            print(nom_dir)
             if nom_dir not in exclosos:
                 # no és a S ni a la llista de dirs exclosos; s'hi ha d'afegir
                 AfegirAccioTaula(taula,[fS,'+f'])

@@ -31,7 +31,7 @@ class FinPpal(QMainWindow,Ui_MainWindow):
         self.Continuar__init__()
     #·····································
     def Continuar__init__(self):
-        self.LReady.setText("210921.1740")
+        self.LReady.setText("210921.1400")
         self.setWindowIcon(QIcon("Sincro2.ico"))
         self.resize(744,600)
         self.PrepararWidgets()
@@ -277,13 +277,13 @@ class FinPpal(QMainWindow,Ui_MainWindow):
         self.TAccions.setColumnWidth(0,nova_mida-380)
     #·····································
     def Flash(self):
-        for i in range(4):
+        for i in range(3):
             self.setStyleSheet("background-color: red;")
             QApplication.processEvents()
-            time.sleep(.08)
+            time.sleep(.05)
             self.setStyleSheet("background-color: rgb(225,225,225)")
             QApplication.processEvents()
-            time.sleep(.15)        
+            time.sleep(.25)        
 #--------------------------------------------------
 #--------------------------------------------------
 app=QApplication([])

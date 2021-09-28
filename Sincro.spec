@@ -5,7 +5,7 @@ block_cipher = None
 
 
 a = Analysis(['Sincro.py', 'FSincro.py', 'FAjuda.py', 'ModulSincro.py'],
-             pathex=['C:\\Users\\Jordi\\Desktop\\Sincro'],
+             pathex=['C:\\Users\\70175\\Desktop\\Sincro'],
              binaries=[],
              datas=[('TextAjuda.txt', '.'), ('Sincro2.ico', '.')],
              hiddenimports=[],
