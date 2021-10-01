@@ -31,7 +31,7 @@ class FinPpal(QMainWindow,Ui_MainWindow):
         self.Continuar__init__()
     #·····································
     def Continuar__init__(self):
-        self.LReady.setText("211001.1220")
+        self.LReady.setText("211001.1700")
         self.setWindowIcon(QIcon("Sincro2.ico"))
         self.resize(744,600)
         self.PrepararWidgets()

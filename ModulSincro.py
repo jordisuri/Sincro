@@ -57,7 +57,6 @@ def DadesTS(ts):
 #------------------------------------------------------
 # afegeix una nova acció a la taula
 def AfegirAccioTaula(taula,accio):
-    print(accio[0])
     i=taula.rowCount()
     taula.insertRow(i)   # afegeix una fila al final
     taula.setRowHeight(i,20)
