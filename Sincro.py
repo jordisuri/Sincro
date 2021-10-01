@@ -31,7 +31,7 @@ class FinPpal(QMainWindow,Ui_MainWindow):
         self.Continuar__init__()
     #·····································
     def Continuar__init__(self):
-        self.LReady.setText("210921.1400")
+        self.LReady.setText("211001.1220")
         self.setWindowIcon(QIcon("Sincro2.ico"))
         self.resize(744,600)
         self.PrepararWidgets()
@@ -283,7 +283,7 @@ class FinPpal(QMainWindow,Ui_MainWindow):
             time.sleep(.05)
             self.setStyleSheet("background-color: rgb(225,225,225)")
             QApplication.processEvents()
-            time.sleep(.25)        
+            time.sleep(.20)        
 #--------------------------------------------------
 #--------------------------------------------------
 app=QApplication([])
